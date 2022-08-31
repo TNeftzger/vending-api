@@ -115,12 +115,11 @@ def update_inventory(soda_id: int):
         returned_coins = money.coin % 2
         update_inventory.soda_count = update_inventory.soda_count - items_delivered
         db.session.commit()
-        Response(headers={'X-Coins: ': str(returned_coins)}), 204
-        return jsonify(message={"quantity":str(items_delivered)}), 204
+        if update_inventory.soda_count <= 0:
+            return jsonify(message="This product is out of stock."), 404
+        return jsonify(message={'quantity': str(items_delivered)}), 204
     else:
-        update_inventory.soda_count = int(request.form['soda_count'])
-        db.session.commit()
-        return jsonify(message="Out of stock!"), 404
+        return jsonify(message="Out of stock! Choose a different soda."), 404
 
 
 # Vending Database Model
