@@ -111,7 +111,7 @@ def update_inventory(soda_id: int):
     money = Money.query.filter_by(coin_id=1).first()
     update_inventory = Soda.query.filter_by(soda_id=soda_id).first()
     if update_inventory.soda_count > 0:
-        items_delivered = money.coin / 2
+        items_delivered = int(money.coin / 2)
         returned_coins = money.coin % 2
         update_inventory.soda_count = update_inventory.soda_count - items_delivered
         db.session.commit()
